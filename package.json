@@ -1,0 +1,16 @@
+{
+  "name": "soccerendt9",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "netlify dev",
+    "start": "netlify dev",
+    "test:functions": "netlify functions:serve"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^8.2.0"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.38.1"
+  }
+}

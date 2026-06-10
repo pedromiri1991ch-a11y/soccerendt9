@@ -37,7 +37,7 @@ h1{margin:0;font-size:20px;line-height:1.2;font-weight:900;letter-spacing:-.3px}
 .kpi{padding:13px 14px;border-radius:20px;background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.03));border:1px solid var(--line);box-shadow:var(--shadow-soft)}
 .kpi .num{font-size:20px;font-weight:900;line-height:1.2}.kpi .lbl{font-size:11px;color:var(--muted);margin-top:4px}
 .nav{position:fixed;left:0;right:0;bottom:0;z-index:50;background:rgba(5,10,8,.9);backdrop-filter:blur(16px);border-top:1px solid var(--line);padding:8px 8px calc(8px + env(safe-area-inset-bottom))}
-.nav-inner{max-width:920px;margin:0 auto;display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.nav-inner{max-width:980px;margin:0 auto;display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
 .nav button{border:0;background:transparent;color:var(--muted);padding:9px 4px;border-radius:15px;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;cursor:pointer}
 .nav button.active{background:rgba(25,241,162,.12);color:var(--green2)}
 .nav .ico{font-size:18px}
@@ -86,7 +86,7 @@ details.group-block{border:1px solid var(--line);background:rgba(255,255,255,.03
   .top{padding-bottom:18px}
   .kpis{grid-template-columns:repeat(5,1fr)}
   .nav{position:relative;top:auto;bottom:auto;background:transparent;border:0;backdrop-filter:none;padding:10px 0}
-  .nav-inner{max-width:none;grid-template-columns:repeat(6,minmax(104px,1fr))}
+  .nav-inner{max-width:none;grid-template-columns:repeat(7,minmax(104px,1fr))}
   .nav button{flex-direction:row;justify-content:center;font-size:13px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
   .grid.two{grid-template-columns:repeat(2,1fr)}
   .grid.three{grid-template-columns:repeat(3,1fr)}
@@ -100,6 +100,16 @@ details.group-block{border:1px solid var(--line);background:rgba(255,255,255,.03
 .compact-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
 .compact-stat{border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:16px;padding:9px 8px;text-align:center}
 .compact-stat b{display:block;font-size:17px}
+.table-wrap{width:100%;overflow-x:auto;border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.025)}
+.leaderboard-table{width:100%;min-width:760px;border-collapse:collapse;font-size:12px}
+.leaderboard-table th,.leaderboard-table td{padding:12px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+.leaderboard-table th{color:#bffff0;font-weight:900;background:rgba(25,241,162,.06)}
+.leaderboard-table tr:last-child td{border-bottom:0}
+.leaderboard-table td.score-cell{font-weight:900;color:#f4fff9}
+.registered-results{display:grid;gap:10px;margin-top:10px}
+.result-card{display:grid;gap:7px;padding:12px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.result-teams{display:flex;justify-content:space-between;gap:10px;align-items:center;font-weight:900}
+.result-score{direction:ltr;text-align:center;color:var(--green2);font-weight:900}
 .numbered-wrap{position:relative}
 .number-badge{position:absolute;top:10px;right:10px;z-index:2;border-radius:999px;background:rgba(25,241,162,.15);border:1px solid rgba(25,241,162,.25);color:#dfffee;font-size:11px;font-weight:900;padding:6px 9px;backdrop-filter:blur(10px)}
 .range-actions{display:flex;gap:8px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none}
@@ -151,6 +161,7 @@ select{color-scheme:dark}select option{background:#0d1914;color:#f4fff9}.partici
     <button data-tab="participants"><span class="ico">👤</span><span>افراد</span></button>
     <button data-tab="matches"><span class="ico">📅</span><span>بازی‌ها</span></button>
     <button data-tab="numbers"><span class="ico">📆</span><span>برنامه بازی‌ها</span></button>
+    <button data-tab="standings"><span class="ico">#</span><span>جدول امتیازها</span></button>
     <button data-tab="stages"><span class="ico">🏆</span><span>مراحل</span></button>
     <button data-tab="compare"><span class="ico">⚔️</span><span>مقایسه</span></button>
   </div></nav>
@@ -244,6 +255,23 @@ select{color-scheme:dark}select option{background:#0d1914;color:#f4fff9}.partici
       </div>
     </section>
 
+    <section id="standings" class="section">
+      <div class="card premium">
+        <div class="row" style="margin-bottom:10px">
+          <div>
+            <h2 style="margin:0">جدول امتیازها</h2>
+            <div class="small muted" style="margin-top:4px">امتیازها فعلا فقط با نتایج دستی مرحله گروهی محاسبه می‌شوند.</div>
+          </div>
+          <span id="resultsLastUpdated" class="pill">نتایج دستی</span>
+        </div>
+        <div id="leaderboard"></div>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <h2>نتایج ثبت‌شده</h2>
+        <div id="registeredResults" class="registered-results"></div>
+      </div>
+    </section>
+
     <section id="stages" class="section">
       <div class="stage-shell">
         <div class="stage-top">
@@ -275,6 +303,175 @@ const stageConfig = [
   {key:'فینال', short:'فینالیست‌ها', chip:'فینالیست‌ها'},
   {key:'قهرمان', short:'قهرمان', chip:'قهرمان'}
 ];
+
+const EMPTY_RESULTS = {lastUpdated:null, matches:[]};
+const DEFAULT_SCORING_RULES = {
+  matchScoring: {group: {correctResult: 4, exactScore: null}},
+  specialQuestions: {round32Team:5, round16Team:8, quarterfinalTeam:12, semifinalTeam:20, finalist:30, champion:40}
+};
+let scoringRules = DEFAULT_SCORING_RULES;
+let mergedResults = EMPTY_RESULTS;
+let leaderboardRows = [];
+
+async function fetchJsonSafe(url, fallback){
+  try {
+    const res = await fetch(url, {cache:'no-store'});
+    if(!res.ok) return fallback;
+    return await res.json();
+  } catch(e) {
+    return fallback;
+  }
+}
+
+function normalizeResults(payload){
+  return {
+    lastUpdated: payload?.lastUpdated || null,
+    matches: Array.isArray(payload?.matches) ? payload.matches.filter(m => m && m.matchId != null) : []
+  };
+}
+
+function mergeResultPayloads(cachedPayload, manualPayload){
+  const cached = normalizeResults(cachedPayload);
+  const manual = normalizeResults(manualPayload);
+  const byId = new Map();
+  cached.matches.forEach(m => byId.set(String(m.matchId), {...m, source:m.source || 'cache'}));
+  manual.matches.forEach(m => byId.set(String(m.matchId), {...m, source:m.source || 'manual'}));
+  return {
+    lastUpdated: manual.lastUpdated || cached.lastUpdated || null,
+    matches: Array.from(byId.values()).sort((a,b) => Number(a.matchId) - Number(b.matchId))
+  };
+}
+
+function resultChoice(result, match){
+  const home = result.homeTeam || match?.team1 || '';
+  const away = result.awayTeam || match?.team2 || '';
+  if(Number(result.homeScore90) > Number(result.awayScore90)) return home;
+  if(Number(result.homeScore90) < Number(result.awayScore90)) return away;
+  return 'مساوی';
+}
+
+function isGroupStageResult(result, match){
+  return (result.stage || 'group') === 'group' && !!match && result.status === 'finished';
+}
+
+function scoreParticipant(p){
+  const predictionByMatch = new Map((p.matches || []).map(m => [String(m.id), m]));
+  let matchPoints = 0;
+  let correctPredictions = 0;
+  let reviewedMatches = 0;
+  const groupPoints = Number(scoringRules?.matchScoring?.group?.correctResult ?? 4);
+
+  mergedResults.matches.forEach(result => {
+    const match = D.matches.find(m => String(m.id) === String(result.matchId));
+    if(!isGroupStageResult(result, match)) return;
+    const prediction = predictionByMatch.get(String(result.matchId));
+    if(!prediction) return;
+    reviewedMatches += 1;
+    if(String(prediction.choice || '').trim() === String(resultChoice(result, match)).trim()){
+      matchPoints += groupPoints;
+      correctPredictions += 1;
+    }
+  });
+
+  const specialPoints = 0;
+  return {
+    id: p.id,
+    name: p.name,
+    matchPoints,
+    specialPoints,
+    totalPoints: matchPoints + specialPoints,
+    correctPredictions,
+    reviewedMatches
+  };
+}
+
+function calculateLeaderboard(){
+  leaderboardRows = D.participants.map(scoreParticipant).sort((a,b) =>
+    b.totalPoints - a.totalPoints ||
+    b.matchPoints - a.matchPoints ||
+    b.correctPredictions - a.correctPredictions ||
+    String(a.name).localeCompare(String(b.name), 'fa')
+  ).map((row, index) => ({...row, rank:index + 1}));
+}
+
+function renderLeaderboard(){
+  calculateLeaderboard();
+  const target = $('#leaderboard');
+  if(!target) return;
+  target.innerHTML = `
+    <div class="table-wrap">
+      <table class="leaderboard-table">
+        <thead>
+          <tr>
+            <th>رتبه</th>
+            <th>نام</th>
+            <th>امتیاز کل</th>
+            <th>امتیاز بازی‌ها</th>
+            <th>امتیاز سوالات ویژه</th>
+            <th>پیش‌بینی صحیح</th>
+            <th>بازی‌های بررسی‌شده</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${leaderboardRows.map(row => `
+            <tr>
+              <td>${fmt(row.rank)}</td>
+              <td>${esc(row.name)}</td>
+              <td class="score-cell">${fmt(row.totalPoints)}</td>
+              <td>${fmt(row.matchPoints)}</td>
+              <td>${fmt(row.specialPoints)}</td>
+              <td>${fmt(row.correctPredictions)}</td>
+              <td>${fmt(row.reviewedMatches)}</td>
+            </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>`;
+}
+
+function renderRegisteredResults(){
+  const target = $('#registeredResults');
+  if(!target) return;
+  $('#resultsLastUpdated').textContent = mergedResults.lastUpdated ? `آخرین به‌روزرسانی: ${mergedResults.lastUpdated}` : 'نتایج دستی';
+  target.innerHTML = mergedResults.matches.map(result => {
+    const match = D.matches.find(m => String(m.id) === String(result.matchId));
+    const home = result.homeTeam || match?.team1 || '-';
+    const away = result.awayTeam || match?.team2 || '-';
+    return `
+      <div class="result-card">
+        <div class="result-teams"><span>${esc(home)}</span><span class="result-score">${fmt(result.homeScore90)} - ${fmt(result.awayScore90)}</span><span>${esc(away)}</span></div>
+        <div class="tiny muted">بازی ${fmt(result.matchId)} · ${esc(result.stage || 'group')} · ${esc(result.source || 'manual')}</div>
+      </div>`;
+  }).join('') || '<div class="muted small">هنوز نتیجه‌ای ثبت نشده است.</div>';
+}
+
+function renderScoring(){
+  renderLeaderboard();
+  renderRegisteredResults();
+}
+
+async function loadScoringData(){
+  renderScoring();
+  const rules = await fetchJsonSafe('data/scoring-rules.json', DEFAULT_SCORING_RULES);
+  const cached = await fetchJsonSafe('/.netlify/functions/get-results', EMPTY_RESULTS);
+  const manual = await fetchJsonSafe('data/manual-overrides.json', EMPTY_RESULTS);
+  scoringRules = rules || DEFAULT_SCORING_RULES;
+  mergedResults = mergeResultPayloads(cached, manual);
+  renderScoring();
+  const selectedId = $('#participantSelect')?.value;
+  if(selectedId) renderParticipantDetail(selectedId);
+}
+
+function participantScoreSummary(p){
+  const score = scoreParticipant(p);
+  return `
+    <div class="compact-stats" style="margin-bottom:12px">
+      <div class="compact-stat"><b>${fmt(score.totalPoints)}</b><span class="tiny muted">امتیاز فعلی</span></div>
+      <div class="compact-stat"><b>${fmt(score.matchPoints)}</b><span class="tiny muted">امتیاز بازی‌ها</span></div>
+      <div class="compact-stat"><b>${fmt(score.specialPoints)}</b><span class="tiny muted">امتیاز سوالات ویژه</span></div>
+      <div class="compact-stat"><b>${fmt(score.correctPredictions)}</b><span class="tiny muted">پیش‌بینی صحیح</span></div>
+      <div class="compact-stat"><b>${fmt(score.reviewedMatches)}</b><span class="tiny muted">بازی‌های بررسی‌شده</span></div>
+    </div>`;
+}
 
 function makeKpis(){
   const items = [
@@ -461,6 +658,7 @@ function renderParticipantDetail(id){
   $('#participantDetail').innerHTML = `
     <div class="row" style="margin-bottom:8px"><div><h2 style="margin:0 0 4px">${esc(p.name)}</h2><div class="muted small">شرکت‌کننده #${fmt(p.id)}</div></div><span class="pill">${p.minutes ? fmt(p.minutes)+' دقیقه' : '-'}</span></div>
     ${personalPredictionCard(p)}
+    ${participantScoreSummary(p)}
     <div class="grid" style="margin-top:0">
       <div>
         <h3>قهرمان</h3><div class="stage-chips">${p.champion ? chips([p.champion], 'gold') : '<span class="chip">-</span>'}</div>
@@ -762,6 +960,7 @@ compareParticipants();
 renderMatches();
 renderNumberedMatches();
 renderStages();
+loadScoringData();
 
 </script>
 </body>

@@ -1,0 +1,53 @@
+{
+  "matchScoring": {
+    "group": {
+      "labelFa": "دور مقدماتی",
+      "correctResult": 4,
+      "exactScore": null
+    },
+    "round32": {
+      "labelFa": "یک‌شانزدهم نهایی",
+      "correctResult": 8,
+      "exactScore": 12
+    },
+    "round16": {
+      "labelFa": "یک‌هشتم نهایی",
+      "correctResult": 12,
+      "exactScore": 16
+    },
+    "quarterfinal": {
+      "labelFa": "یک‌چهارم نهایی",
+      "correctResult": 16,
+      "exactScore": 22
+    },
+    "semifinal": {
+      "labelFa": "نیمه‌نهایی",
+      "correctResult": 22,
+      "exactScore": 30
+    },
+    "thirdPlace": {
+      "labelFa": "رده‌بندی",
+      "correctResult": 30,
+      "exactScore": 35
+    },
+    "final": {
+      "labelFa": "فینال",
+      "correctResult": 35,
+      "exactScore": 40
+    }
+  },
+  "specialQuestions": {
+    "round32Team": 5,
+    "round16Team": 8,
+    "quarterfinalTeam": 12,
+    "semifinalTeam": 20,
+    "finalist": 30,
+    "champion": 40
+  },
+  "notes": [
+    "For each match, exact-score points and correct-result points are not cumulative.",
+    "Match results are based on the 90-minute result only.",
+    "Group-stage exact-score scoring is not used.",
+    "If exact-score prediction data does not exist, exact-score points are not awarded."
+  ]
+}
