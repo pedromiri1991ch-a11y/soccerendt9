@@ -65,7 +65,7 @@ exports.handler = async (event) => {
       matches: Array.from(byId.values()).sort((a, b) => Number(a.matchId) - Number(b.matchId))
     };
 
-    await store.setJSON("latest-results", data);
+    await store.set("latest-results", JSON.stringify(data));
 
     return json({
       ok: true,
@@ -73,7 +73,16 @@ exports.handler = async (event) => {
       data
     });
   } catch (error) {
-    return json({ ok: false, message: "Unable to save result." }, 500);
+    console.error("save-result blob write failed", {
+      name: error && error.name,
+      message: error && error.message
+    });
+
+    return json({
+      ok: false,
+      message: "Unable to save result.",
+      errorCode: error && error.name ? error.name : "BlobWriteError"
+    }, 500);
   }
 };
 
