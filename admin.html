@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>ثبت نتیجه بازی</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07110d;--card:#0d1914;--line:rgba(255,255,255,.09);--text:#f4fff9;--muted:#9fb6aa;
+  --green:#19f1a2;--green2:#8bf5cf;--danger:#ff6b7a;--shadow:0 20px 50px rgba(0,0,0,.30);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Vazirmatn',system-ui,sans-serif;background:radial-gradient(900px 450px at 50% -10%, #134d37 0%, #09110d 46%, #040907 100%);color:var(--text)}
+button,input,select{font-family:inherit}
+.app{max-width:760px;margin:0 auto;padding:18px 14px 42px}
+.card{background:linear-gradient(180deg,rgba(13,25,20,.98),rgba(10,19,15,.98));border:1px solid var(--line);border-radius:24px;padding:16px;box-shadow:var(--shadow)}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px}
+h1{font-size:22px;line-height:1.3;margin:0;font-weight:900}
+.sub{font-size:12px;color:var(--muted);line-height:1.8;margin-top:4px}
+.pill{display:inline-flex;border-radius:999px;padding:8px 11px;background:rgba(25,241,162,.11);border:1px solid rgba(25,241,162,.22);font-size:12px;color:#eafff3;white-space:nowrap}
+.form{display:grid;gap:13px}
+label{display:grid;gap:7px;font-size:12px;color:#bffff0;font-weight:800}
+input,select{width:100%;padding:12px 13px;border-radius:16px;border:1px solid var(--line);background:#102018;color:#fff;outline:none}
+select option{background:#102018;color:#fff}
+.teams{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;padding:12px;border-radius:18px;background:rgba(255,255,255,.045);border:1px solid var(--line)}
+.team{text-align:center;font-weight:900;line-height:1.6}
+.vs{color:var(--green2);font-weight:900}
+.scores{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{border:0;background:var(--green);color:#042014;border-radius:16px;padding:13px 14px;font-weight:900;cursor:pointer}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.message{display:none;border-radius:16px;padding:12px 13px;font-size:13px;line-height:1.8}
+.message.show{display:block}
+.message.ok{background:rgba(25,241,162,.11);border:1px solid rgba(25,241,162,.22);color:#dcfff0}
+.message.err{background:rgba(255,107,122,.10);border:1px solid rgba(255,107,122,.24);color:#ffdfe3}
+.link{display:inline-block;margin-top:14px;color:var(--muted);font-size:12px;text-decoration:none}
+@media (max-width:430px){.top{display:grid}.scores{grid-template-columns:1fr}.teams{grid-template-columns:1fr}.vs{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="card">
+    <div class="top">
+      <div>
+        <h1>ثبت نتیجه بازی</h1>
+        <div class="sub">نتیجه‌ها به صورت دستی ذخیره می‌شوند و بعد از تازه‌سازی داشبورد در جدول امتیازها استفاده می‌شوند.</div>
+      </div>
+      <span class="pill">مدیریت خصوصی</span>
+    </div>
+
+    <form id="resultForm" class="form">
+      <label>
+        کد مدیر
+        <input id="adminToken" type="password" autocomplete="off" required />
+      </label>
+
+      <label>
+        انتخاب بازی
+        <select id="matchSelect" required>
+          <option value="">در حال بارگذاری بازی‌ها...</option>
+        </select>
+      </label>
+
+      <div class="teams" aria-live="polite">
+        <div id="homeTeam" class="team">-</div>
+        <div class="vs">VS</div>
+        <div id="awayTeam" class="team">-</div>
+      </div>
+
+      <div class="scores">
+        <label>
+          گل تیم میزبان در ۹۰ دقیقه
+          <input id="homeScore90" type="number" min="0" step="1" inputmode="numeric" required />
+        </label>
+        <label>
+          گل تیم مهمان در ۹۰ دقیقه
+          <input id="awayScore90" type="number" min="0" step="1" inputmode="numeric" required />
+        </label>
+      </div>
+
+      <button id="saveBtn" class="btn" type="submit">ذخیره نتیجه</button>
+      <div id="message" class="message"></div>
+    </form>
+
+    <a class="link" href="/">بازگشت به داشبورد</a>
+  </div>
+</div>
+
+<script>
+const $ = (selector) => document.querySelector(selector);
+const state = { matches: [] };
+const esc = (value) => String(value ?? '').replace(/[&<>"]/g, (char) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[char]));
+
+function showMessage(text, type){
+  const box = $('#message');
+  box.textContent = text;
+  box.className = `message show ${type}`;
+}
+
+function setSelectedMatch(){
+  const match = state.matches.find((item) => String(item.id) === String($('#matchSelect').value));
+  $('#homeTeam').textContent = match ? match.team1 : '-';
+  $('#awayTeam').textContent = match ? match.team2 : '-';
+}
+
+async function loadMatches(){
+  try {
+    const response = await fetch('/index.html', { cache: 'no-store' });
+    const html = await response.text();
+    const start = html.indexOf('const D = ') + 'const D = '.length;
+    let end = html.indexOf(';\r\nconst $', start);
+    if(end < 0) end = html.indexOf(';\nconst $', start);
+    const data = JSON.parse(html.slice(start, end));
+    state.matches = Array.isArray(data.matches) ? data.matches : [];
+    $('#matchSelect').innerHTML = state.matches.map((match) => (
+      `<option value="${match.id}">بازی ${Number(match.id).toLocaleString('fa-IR')} · ${esc(match.name)}</option>`
+    )).join('');
+    setSelectedMatch();
+  } catch (error) {
+    $('#matchSelect').innerHTML = '<option value="">بازی‌ها بارگذاری نشدند</option>';
+    showMessage('فهرست بازی‌ها بارگذاری نشد. صفحه را دوباره باز کنید.', 'err');
+  }
+}
+
+$('#matchSelect').addEventListener('change', setSelectedMatch);
+
+$('#resultForm').addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const match = state.matches.find((item) => String(item.id) === String($('#matchSelect').value));
+  if(!match){
+    showMessage('لطفا یک بازی معتبر انتخاب کنید.', 'err');
+    return;
+  }
+
+  const body = {
+    adminToken: $('#adminToken').value,
+    matchId: Number(match.id),
+    stage: 'group',
+    homeTeam: match.team1,
+    awayTeam: match.team2,
+    homeScore90: Number($('#homeScore90').value),
+    awayScore90: Number($('#awayScore90').value),
+    status: 'finished'
+  };
+
+  $('#saveBtn').disabled = true;
+  showMessage('در حال ذخیره نتیجه...', 'ok');
+
+  try {
+    const response = await fetch('/.netlify/functions/save-result', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const data = await response.json();
+    if(!response.ok || !data.ok){
+      showMessage(data.message || 'ذخیره نتیجه انجام نشد.', 'err');
+      return;
+    }
+    showMessage('نتیجه با موفقیت ذخیره شد.', 'ok');
+    $('#adminToken').value = '';
+  } catch (error) {
+    showMessage('ارتباط با سرور برقرار نشد.', 'err');
+  } finally {
+    $('#saveBtn').disabled = false;
+  }
+});
+
+loadMatches();
+</script>
+</body>
+</html>

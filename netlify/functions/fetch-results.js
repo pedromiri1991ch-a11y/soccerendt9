@@ -7,17 +7,17 @@ const EMPTY_RESULTS = {
 
 exports.handler = async () => {
   try {
-    const store = getStore("results");
-    const cached = await store.get("manual-results", { type: "json" });
+    const store = getStore("worldcup-results");
+    const cached = await store.get("latest-results", { type: "json" });
     const results = cached || EMPTY_RESULTS;
 
-    await store.setJSON("manual-results", results);
+    await store.setJSON("latest-results", results);
 
     return json({
       ok: true,
       initialized: !cached,
       cacheExists: true,
-      cacheKey: "manual-results",
+      cacheKey: "latest-results",
       results
     });
   } catch (error) {
@@ -25,7 +25,7 @@ exports.handler = async () => {
       ok: true,
       initialized: false,
       cacheExists: false,
-      cacheKey: "manual-results",
+      cacheKey: "latest-results",
       results: EMPTY_RESULTS,
       note: "Netlify Blobs is not configured in this environment."
     });

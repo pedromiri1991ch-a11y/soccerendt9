@@ -1,15 +1,4 @@
 {
-  "lastUpdated": "2026-06-11",
-  "matches": [
-    {
-      "matchId": 1,
-      "stage": "group",
-      "homeTeam": "مکزیک",
-      "awayTeam": "آفریقای جنوبی",
-      "homeScore90": 2,
-      "awayScore90": 0,
-      "status": "finished",
-      "source": "manual"
-    }
-  ]
+  "lastUpdated": null,
+  "matches": []
 }

@@ -7,8 +7,8 @@ const EMPTY_RESULTS = {
 
 exports.handler = async () => {
   try {
-    const store = getStore("results");
-    const cached = await store.get("manual-results", { type: "json" });
+    const store = getStore("worldcup-results");
+    const cached = await store.get("latest-results", { type: "json" });
 
     return json(cached || EMPTY_RESULTS);
   } catch (error) {
