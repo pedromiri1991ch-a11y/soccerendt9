@@ -1,12 +1,13 @@
-const { getStore } = require("@netlify/blobs");
+const { connectLambda, getStore } = require("@netlify/blobs");
 
 const EMPTY_RESULTS = {
   lastUpdated: null,
   matches: []
 };
 
-exports.handler = async () => {
+exports.handler = async (event) => {
   try {
+    connectLambda(event);
     const store = getStore("worldcup-results");
     const cached = await store.get("latest-results", { type: "json" });
 

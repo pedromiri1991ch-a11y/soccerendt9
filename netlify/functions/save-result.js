@@ -1,4 +1,4 @@
-const { getStore } = require("@netlify/blobs");
+const { connectLambda, getStore } = require("@netlify/blobs");
 
 const EMPTY_RESULTS = {
   lastUpdated: null,
@@ -54,6 +54,7 @@ exports.handler = async (event) => {
   };
 
   try {
+    connectLambda(event);
     const store = getStore("worldcup-results");
     const current = (await store.get("latest-results", { type: "json" })) || EMPTY_RESULTS;
     const byId = new Map((Array.isArray(current.matches) ? current.matches : []).map((item) => [String(item.matchId), item]));
