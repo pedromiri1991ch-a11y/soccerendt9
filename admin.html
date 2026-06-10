@@ -105,18 +105,66 @@ function setSelectedMatch(){
   $('#awayTeam').textContent = match ? match.team2 : '-';
 }
 
+function extractDashboardData(html){
+  const dataStart = html.indexOf('const D = ') + 'const D = '.length;
+  let dataEnd = html.indexOf(';\r\nconst $', dataStart);
+  if(dataEnd < 0) dataEnd = html.indexOf(';\nconst $', dataStart);
+  const data = JSON.parse(html.slice(dataStart, dataEnd));
+
+  const fixtureStart = html.indexOf('const fixtures = [');
+  if(fixtureStart < 0) return { data, fixtures: [] };
+  const arrayStart = html.indexOf('[', fixtureStart);
+  const arrayEnd = html.indexOf('  ];', arrayStart);
+  const fixtures = Function(`return ${html.slice(arrayStart, arrayEnd + 3)}`)();
+
+  return { data, fixtures };
+}
+
+function renderMatchOptions(matches, fixtures){
+  const byId = new Map(matches.map((match) => [String(match.id), match]));
+  const usedIds = new Set();
+
+  if(Array.isArray(fixtures) && fixtures.length){
+    const byDate = {};
+    fixtures.forEach((fixture) => {
+      const match = byId.get(String(fixture.id));
+      if(!match) return;
+      usedIds.add(String(match.id));
+      const item = {...match, fixture};
+      if(!byDate[fixture.date]) byDate[fixture.date] = [];
+      byDate[fixture.date].push(item);
+    });
+
+    const grouped = Object.keys(byDate).map((date) => `
+      <optgroup label="${esc(date)}">
+        ${byDate[date].map((match) => (
+          `<option value="${match.id}">بازی ${Number(match.fixture.no).toLocaleString('fa-IR')} · ${esc(match.fixture.time)} · ${esc(match.name)}</option>`
+        )).join('')}
+      </optgroup>
+    `).join('');
+
+    const missing = matches.filter((match) => !usedIds.has(String(match.id)));
+    if(!missing.length) return grouped;
+
+    return grouped + `
+      <optgroup label="بدون تاریخ">
+        ${missing.map((match) => `<option value="${match.id}">بازی ${Number(match.id).toLocaleString('fa-IR')} · ${esc(match.name)}</option>`).join('')}
+      </optgroup>
+    `;
+  }
+
+  return matches.map((match) => (
+    `<option value="${match.id}">بازی ${Number(match.id).toLocaleString('fa-IR')} · ${esc(match.name)}</option>`
+  )).join('');
+}
+
 async function loadMatches(){
   try {
     const response = await fetch('/index.html', { cache: 'no-store' });
     const html = await response.text();
-    const start = html.indexOf('const D = ') + 'const D = '.length;
-    let end = html.indexOf(';\r\nconst $', start);
-    if(end < 0) end = html.indexOf(';\nconst $', start);
-    const data = JSON.parse(html.slice(start, end));
+    const { data, fixtures } = extractDashboardData(html);
     state.matches = Array.isArray(data.matches) ? data.matches : [];
-    $('#matchSelect').innerHTML = state.matches.map((match) => (
-      `<option value="${match.id}">بازی ${Number(match.id).toLocaleString('fa-IR')} · ${esc(match.name)}</option>`
-    )).join('');
+    $('#matchSelect').innerHTML = renderMatchOptions(state.matches, fixtures);
     setSelectedMatch();
   } catch (error) {
     $('#matchSelect').innerHTML = '<option value="">بازی‌ها بارگذاری نشدند</option>';
