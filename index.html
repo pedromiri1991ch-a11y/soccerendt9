@@ -98,20 +98,28 @@ details.group-block{border:1px solid var(--line);background:rgba(255,255,255,.03
 .compact-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
 .compact-stat{border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:16px;padding:9px 8px;text-align:center}
 .compact-stat b{display:block;font-size:17px}
-.table-wrap{width:100%;overflow-x:auto;border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.025)}
-.leaderboard-table{width:100%;min-width:760px;border-collapse:collapse;font-size:12px}
-.leaderboard-table th,.leaderboard-table td{padding:12px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+.standings-toolbar{display:grid;gap:8px;margin:10px 0}
+.segmented{display:inline-grid;grid-template-columns:1fr 1fr;gap:3px;max-width:190px;padding:3px;border-radius:999px;background:rgba(255,255,255,.045);border:1px solid var(--line)}
+.segmented button{border:0;background:transparent;color:var(--muted);border-radius:999px;padding:7px 11px;font-size:12px;font-weight:900;cursor:pointer}
+.segmented button.active{background:rgba(25,241,162,.16);color:#eafff3}
+.filter-pills{display:flex;gap:7px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}.filter-pills::-webkit-scrollbar{display:none}
+.filter-pills button{flex:0 0 auto;border:1px solid var(--line);background:rgba(255,255,255,.045);color:var(--muted);border-radius:999px;padding:7px 10px;font-size:11px;font-weight:800;cursor:pointer}
+.filter-pills button.active{background:rgba(25,241,162,.14);border-color:rgba(25,241,162,.26);color:#eafff3}
+.standings-list{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:rgba(255,255,255,.025)}
+.standings-row{display:grid;grid-template-columns:34px minmax(0,1fr) auto auto;gap:8px;align-items:center;min-height:42px;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.07);font-size:12px}
+.standings-row:last-child{border-bottom:0}
+.standings-rank{color:#cfe6da;font-weight:900;text-align:center}
+.standings-rank.top{display:inline-grid;place-items:center;min-width:26px;height:24px;border-radius:999px;background:rgba(25,241,162,.15);color:#dfffee;border:1px solid rgba(25,241,162,.22)}
+.standings-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:900}
+.standings-points{font-weight:900;color:#f4fff9;white-space:nowrap}
+.standings-correct{color:var(--muted);white-space:nowrap;font-size:11px}
+.table-wrap{width:100%;overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.025)}
+.leaderboard-table{width:100%;min-width:680px;border-collapse:collapse;font-size:12px}
+.leaderboard-table th,.leaderboard-table td{padding:10px 9px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
 .leaderboard-table th{color:#bffff0;font-weight:900;background:rgba(25,241,162,.06)}
 .leaderboard-table tr:last-child td{border-bottom:0}
 .leaderboard-table td.score-cell{font-weight:900;color:#f4fff9}
-.leaderboard-cards{display:grid;gap:8px}
-.leaderboard-card{display:grid;gap:8px;padding:12px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
-.leaderboard-card-head{display:flex;justify-content:space-between;gap:10px;align-items:center}
-.leaderboard-card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.leaderboard-card-grid div{padding:8px;border-radius:12px;background:rgba(255,255,255,.035);text-align:center}
-.leaderboard-card-grid b{display:block;font-size:15px}
-@media(max-width:640px){.table-wrap{display:none}.leaderboard-table{min-width:0}.leaderboard-card-grid{grid-template-columns:repeat(2,1fr)}}
-@media(min-width:641px){.leaderboard-cards{display:none}}
+@media(max-width:430px){.standings-row{grid-template-columns:30px minmax(0,1fr) auto;gap:7px}.standings-correct{grid-column:2 / 4;margin-top:-3px}}
 .registered-results{display:grid;gap:10px;margin-top:10px}
 .result-card{display:grid;gap:7px;padding:12px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
 .result-teams{display:flex;justify-content:space-between;gap:10px;align-items:center;font-weight:900}
@@ -329,10 +337,10 @@ select{color-scheme:dark}select option{background:#0d1914;color:#f4fff9}.partici
 
     <section id="standings" class="section">
       <div class="card premium">
-        <div class="row" style="margin-bottom:10px">
+        <div class="row" style="margin-bottom:6px">
           <div>
-            <h2 style="margin:0">جدول امتیازها</h2>
-            <div class="small muted" style="margin-top:4px">امتیازها فعلا فقط با نتایج دستی مرحله گروهی محاسبه می‌شوند.</div>
+            <h2 style="margin:0">رتبه‌بندی دوستان</h2>
+            <div class="small muted" style="margin-top:3px">امتیازها با نتایج دستی مرحله گروهی محاسبه می‌شوند.</div>
           </div>
           <span id="resultsLastUpdated" class="pill">نتایج دستی</span>
         </div>
@@ -409,6 +417,8 @@ let scoringRules = DEFAULT_SCORING_RULES;
 let mergedResults = EMPTY_RESULTS;
 let leaderboardRows = [];
 let fixtureByMatchId = new Map();
+let standingsMode = 'compact';
+let standingsFilter = 'all';
 
 async function fetchJsonSafe(url, fallback){
   try {
@@ -519,24 +529,50 @@ function calculateLeaderboard(){
   ).map((row, index) => ({...row, rank:index + 1}));
 }
 
+function selectedParticipantId(){
+  return $('#homeParticipantSelect')?.value || $('#participantSelect')?.value || D.participants[0]?.id || '';
+}
+
+function filteredLeaderboardRows(){
+  if(!leaderboardRows.length) calculateLeaderboard();
+  const maxScore = Math.max(...leaderboardRows.map(row => row.totalPoints), 0);
+  if(standingsFilter === 'leaders') return leaderboardRows.filter(row => row.totalPoints === maxScore);
+  if(standingsFilter === 'me') return leaderboardRows.filter(row => String(row.id) === String(selectedParticipantId()));
+  if(standingsFilter === 'scored') return leaderboardRows.filter(row => row.totalPoints > 0);
+  if(standingsFilter === 'zero') return leaderboardRows.filter(row => row.totalPoints === 0);
+  return leaderboardRows;
+}
+
 function renderLeaderboard(){
   calculateLeaderboard();
   const target = $('#leaderboard');
   if(!target) return;
+  const rows = filteredLeaderboardRows();
+  const filters = [
+    ['all', 'همه'],
+    ['me', 'من']
+  ];
   target.innerHTML = `
-    <div class="leaderboard-cards">
-      ${leaderboardRows.map(row => `
-        <div class="leaderboard-card">
-          <div class="leaderboard-card-head"><b>${fmt(row.rank)}. ${esc(row.name)}</b><span class="pill">${fmt(row.totalPoints)} امتیاز</span></div>
-          <div class="leaderboard-card-grid">
-            <div><b>${fmt(row.matchPoints)}</b><span class="tiny muted">بازی‌ها</span></div>
-            <div><b>${fmt(row.specialPoints)}</b><span class="tiny muted">سوالات ویژه</span></div>
-            <div><b>${fmt(row.correctPredictions)}</b><span class="tiny muted">صحیح</span></div>
-            <div><b>${fmt(row.reviewedMatches)}</b><span class="tiny muted">بررسی‌شده</span></div>
-          </div>
-        </div>`).join('')}
+    <div class="standings-toolbar">
+      <div class="segmented">
+        <button type="button" class="${standingsMode === 'compact' ? 'active' : ''}" data-mode="compact">فشرده</button>
+        <button type="button" class="${standingsMode === 'full' ? 'active' : ''}" data-mode="full">کامل</button>
+      </div>
+      <div class="filter-pills">
+        ${filters.map(([key, label]) => `<button type="button" class="${standingsFilter === key ? 'active' : ''}" data-filter="${key}">${label}</button>`).join('')}
+      </div>
     </div>
-    <div class="table-wrap">
+    ${standingsMode === 'compact' ? `
+      <div class="standings-list">
+        ${rows.map(row => `
+          <div class="standings-row">
+            <div class="standings-rank ${row.rank === 1 ? 'top' : ''}">${fmt(row.rank)}</div>
+            <div class="standings-name">${esc(row.name)}</div>
+            <div class="standings-points">${fmt(row.totalPoints)} امتیاز</div>
+            <div class="standings-correct">${fmt(row.correctPredictions)}/${fmt(row.reviewedMatches)} صحیح</div>
+          </div>`).join('') || '<div class="muted small" style="padding:12px">موردی برای نمایش وجود ندارد.</div>'}
+      </div>` : `
+      <div class="table-wrap">
       <table class="leaderboard-table">
         <thead>
           <tr>
@@ -550,7 +586,7 @@ function renderLeaderboard(){
           </tr>
         </thead>
         <tbody>
-          ${leaderboardRows.map(row => `
+          ${rows.map(row => `
             <tr>
               <td>${fmt(row.rank)}</td>
               <td>${esc(row.name)}</td>
@@ -562,13 +598,46 @@ function renderLeaderboard(){
             </tr>`).join('')}
         </tbody>
       </table>
-    </div>`;
+    </div>`}`;
+  $$('#leaderboard [data-mode]').forEach(btn => btn.onclick = () => {
+    standingsMode = btn.dataset.mode;
+    renderLeaderboard();
+  });
+  $$('#leaderboard [data-filter]').forEach(btn => btn.onclick = () => {
+    standingsFilter = btn.dataset.filter;
+    renderLeaderboard();
+  });
+}
+
+function formatTehranUpdate(value){
+  if(!value) return 'نامشخص';
+  const date = new Date(value);
+  if(Number.isNaN(date.getTime())) return 'نامشخص';
+  try {
+    const parts = new Intl.DateTimeFormat('fa-IR', {
+      timeZone: 'Asia/Tehran',
+      day: 'numeric',
+      month: 'long',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    }).formatToParts(date);
+    const get = (type) => parts.find(part => part.type === type)?.value || '';
+    const day = get('day');
+    const month = get('month');
+    const hour = get('hour');
+    const minute = get('minute');
+    if(!day || !month || !hour || !minute) return 'نامشخص';
+    return `${day} ${month}، ${hour}:${minute}`;
+  } catch(e) {
+    return 'نامشخص';
+  }
 }
 
 function renderRegisteredResults(){
   const target = $('#registeredResults');
   if(!target) return;
-  $('#resultsLastUpdated').textContent = mergedResults.lastUpdated ? `آخرین به‌روزرسانی: ${mergedResults.lastUpdated}` : 'نتایج دستی';
+  $('#resultsLastUpdated').textContent = mergedResults.lastUpdated ? `آخرین به‌روزرسانی: ${formatTehranUpdate(mergedResults.lastUpdated)}` : 'آخرین به‌روزرسانی: نامشخص';
   target.innerHTML = mergedResults.matches.map(result => {
     const match = D.matches.find(m => String(m.id) === String(result.matchId));
     const home = result.homeTeam || match?.team1 || '-';
@@ -919,7 +988,10 @@ function renderParticipantList(){
   const homeSel = $('#homeParticipantSelect');
   if(homeSel) {
     homeSel.innerHTML = participantOptions;
-    homeSel.onchange = e => renderHomeSelfStats(e.target.value);
+    homeSel.onchange = e => {
+      renderHomeSelfStats(e.target.value);
+      if(standingsFilter === 'me') renderLeaderboard();
+    };
   }
   function draw(){
     const q = $('#participantSearch').value.trim().toLowerCase();
@@ -932,7 +1004,10 @@ function renderParticipantList(){
     $$('#participantList .participant-card').forEach(c => c.onclick = () => renderParticipantDetail(c.dataset.id));
   }
   $('#participantSearch').oninput = draw;
-  sel.onchange = e => renderParticipantDetail(e.target.value);
+  sel.onchange = e => {
+    renderParticipantDetail(e.target.value);
+    if(standingsFilter === 'me') renderLeaderboard();
+  };
   draw();
   renderParticipantDetail(D.participants[0]?.id);
 }
