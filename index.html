@@ -424,14 +424,32 @@ function normalizeResults(payload){
   };
 }
 
+function isDeletedResult(result){
+  return String(result?.status || '').toLowerCase() === 'deleted';
+}
+
+function resultTime(result){
+  const timestamp = Date.parse(result?.updatedAt || result?.lastUpdated || '');
+  return Number.isFinite(timestamp) ? timestamp : 0;
+}
+
 function mergeResultPayloads(cachedPayload, manualPayload){
   const cached = normalizeResults(cachedPayload);
   const manual = normalizeResults(manualPayload);
   const byId = new Map();
-  cached.matches.forEach(m => byId.set(String(m.matchId), {...m, source:m.source || 'cache'}));
-  manual.matches.forEach(m => byId.set(String(m.matchId), {...m, source:m.source || 'manual'}));
+  manual.matches.forEach(m => {
+    if(!isDeletedResult(m)) byId.set(String(m.matchId), {...m, source:m.source || 'manual'});
+  });
+  cached.matches.forEach(m => {
+    const key = String(m.matchId);
+    if(isDeletedResult(m)) byId.delete(key);
+    else byId.set(key, {...m, source:m.source || 'cache'});
+  });
+  const lastUpdated = [manual.lastUpdated, cached.lastUpdated]
+    .filter(Boolean)
+    .sort((a,b) => Date.parse(b) - Date.parse(a))[0] || null;
   return {
-    lastUpdated: manual.lastUpdated || cached.lastUpdated || null,
+    lastUpdated,
     matches: Array.from(byId.values()).sort((a,b) => Number(a.matchId) - Number(b.matchId))
   };
 }
@@ -685,7 +703,7 @@ function upcomingFixtures(limit=3){
 
 function latestResults(limit=3){
   return [...mergedResults.matches]
-    .sort((a,b) => String(b.updatedAt || b.matchId).localeCompare(String(a.updatedAt || a.matchId)))
+    .sort((a,b) => resultTime(b) - resultTime(a) || Number(b.matchId) - Number(a.matchId))
     .slice(0, limit);
 }
 

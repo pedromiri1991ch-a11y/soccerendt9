@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-12T00:00:00.000Z",
+  "lastUpdated": "2026-01-01T00:00:00.000Z",
   "matches": [
     {
       "matchId": 1,
@@ -10,7 +10,7 @@
       "awayScore90": 0,
       "status": "finished",
       "source": "manual-local",
-      "updatedAt": "2026-06-12T00:00:00.000Z"
+      "updatedAt": "2026-01-01T00:00:00.000Z"
     },
     {
       "matchId": 2,
@@ -21,7 +21,7 @@
       "awayScore90": 1,
       "status": "finished",
       "source": "manual-local",
-      "updatedAt": "2026-06-12T00:01:00.000Z"
+      "updatedAt": "2026-01-01T00:01:00.000Z"
     }
   ]
 }

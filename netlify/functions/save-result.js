@@ -42,7 +42,12 @@ exports.handler = async (event) => {
     const byId = new Map((Array.isArray(current.matches) ? current.matches : []).map((item) => [String(item.matchId), item]));
 
     if (action === "delete") {
-      byId.delete(String(matchId));
+      byId.set(String(matchId), {
+        matchId,
+        status: "deleted",
+        source: "manual-admin",
+        updatedAt
+      });
     } else {
       const homeScore90 = Number(body.homeScore90);
       const awayScore90 = Number(body.awayScore90);
