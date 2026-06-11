@@ -1,4 +1,27 @@
 {
-  "lastUpdated": null,
-  "matches": []
+  "lastUpdated": "2026-06-12T00:00:00.000Z",
+  "matches": [
+    {
+      "matchId": 1,
+      "stage": "group",
+      "homeTeam": "مکزیک",
+      "awayTeam": "آفریقای جنوبی",
+      "homeScore90": 2,
+      "awayScore90": 0,
+      "status": "finished",
+      "source": "manual-local",
+      "updatedAt": "2026-06-12T00:00:00.000Z"
+    },
+    {
+      "matchId": 2,
+      "stage": "group",
+      "homeTeam": "کره جنوبی",
+      "awayTeam": "چک",
+      "homeScore90": 2,
+      "awayScore90": 1,
+      "status": "finished",
+      "source": "manual-local",
+      "updatedAt": "2026-06-12T00:01:00.000Z"
+    }
+  ]
 }

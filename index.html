@@ -24,28 +24,27 @@ html{scroll-behavior:smooth}
 body{margin:0;font-family:'Vazirmatn',system-ui,sans-serif;background:radial-gradient(900px 450px at 50% -10%, #134d37 0%, #09110d 46%, #040907 100%);color:var(--text)}
 a{color:inherit}
 button,input,select{font-family:inherit}
-.app{max-width:1240px;margin:0 auto;padding:16px 14px 98px}
-.top{position:relative;top:auto;z-index:20;margin:0 -14px;padding:14px 14px 16px;background:linear-gradient(180deg,rgba(7,17,13,.98),rgba(7,17,13,.84));backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.07)}
-.brand{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.app{max-width:1120px;margin:0 auto;padding:14px 14px 42px}
+.top{position:relative;top:auto;z-index:20;margin:0 0 12px;padding:16px;overflow:hidden;background:radial-gradient(360px 120px at 22% 0%,rgba(255,255,255,.13),transparent 62%),radial-gradient(320px 130px at 82% 0%,rgba(25,167,255,.14),transparent 66%),linear-gradient(180deg,rgba(11,28,21,.98),rgba(7,17,13,.92));border:1px solid rgba(255,255,255,.07);border-radius:24px}
+.top:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 49.5%,rgba(255,255,255,.10) 50%,transparent 50.5%),linear-gradient(0deg,transparent 49.5%,rgba(255,255,255,.08) 50%,transparent 50.5%),radial-gradient(ellipse at center,transparent 0 27%,rgba(255,255,255,.08) 28%,rgba(255,255,255,.08) 29%,transparent 30%);background-size:100% 100%,100% 100%,220px 120px;background-position:center;opacity:.18;pointer-events:none}
+.top:after{content:"";position:absolute;inset:-20% -8% auto;height:90px;background:radial-gradient(ellipse at 30% 0%,rgba(255,255,255,.18),transparent 58%),radial-gradient(ellipse at 70% 0%,rgba(139,245,207,.12),transparent 60%);opacity:.45;pointer-events:none}
+.brand{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
 .hero{display:flex;gap:12px;align-items:center}
-.logo{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(135deg,var(--green),#cbffe9);color:#04110c;font-size:24px;box-shadow:0 10px 28px rgba(25,241,162,.24)}
-h1{margin:0;font-size:20px;line-height:1.2;font-weight:900;letter-spacing:-.3px}
+.logo{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--green),#cbffe9);color:#04110c;font-size:23px;box-shadow:0 10px 28px rgba(25,241,162,.20)}
+h1{margin:0;font-size:21px;line-height:1.2;font-weight:900;letter-spacing:0}
 .sub{margin-top:5px;font-size:12px;color:var(--muted);line-height:1.7}
 .pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:8px 11px;background:rgba(255,255,255,.05);border:1px solid var(--line);font-size:12px;color:#e9fff3;white-space:nowrap}
 .pill.glow{background:rgba(25,241,162,.11);border-color:rgba(25,241,162,.22);box-shadow:0 0 0 1px rgba(25,241,162,.06) inset}
-.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
-.kpi{padding:13px 14px;border-radius:20px;background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.03));border:1px solid var(--line);box-shadow:var(--shadow-soft)}
-.kpi .num{font-size:20px;font-weight:900;line-height:1.2}.kpi .lbl{font-size:11px;color:var(--muted);margin-top:4px}
-.nav{position:fixed;left:0;right:0;bottom:0;z-index:50;background:rgba(5,10,8,.9);backdrop-filter:blur(16px);border-top:1px solid var(--line);padding:8px 8px calc(8px + env(safe-area-inset-bottom))}
-.nav-inner{max-width:980px;margin:0 auto;display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.nav{position:relative;z-index:30;background:rgba(5,10,8,.72);border:1px solid var(--line);border-radius:22px;padding:7px;margin:0 0 14px}
+.nav-inner{max-width:980px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
 .nav button{border:0;background:transparent;color:var(--muted);padding:9px 4px;border-radius:15px;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;cursor:pointer}
 .nav button.active{background:rgba(25,241,162,.12);color:var(--green2)}
 .nav .ico{font-size:18px}
 .section{display:none;animation:fade .22s ease}.section.active{display:block}
 @keyframes fade{from{opacity:.45;transform:translateY(4px)}to{opacity:1;transform:none}}
-.grid{display:grid;gap:14px;margin-top:14px}.grid.two{grid-template-columns:1fr}.grid.three{grid-template-columns:1fr}
-.card{background:linear-gradient(180deg,rgba(13,25,20,.98),rgba(10,19,15,.98));border:1px solid var(--line);border-radius:26px;padding:16px;box-shadow:var(--shadow)}
-.card.premium{background:linear-gradient(180deg,rgba(12,31,24,.98),rgba(8,21,16,.98));border-color:var(--line2)}
+.grid{display:grid;gap:12px;margin-top:12px}.grid.two{grid-template-columns:1fr}.grid.three{grid-template-columns:1fr}
+.card{background:linear-gradient(180deg,rgba(13,25,20,.96),rgba(10,19,15,.96));border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:var(--shadow-soft)}
+.card.premium{background:linear-gradient(180deg,rgba(12,31,24,.96),rgba(8,21,16,.96));border-color:var(--line2)}
 .card h2{margin:0 0 12px;font-size:17px;font-weight:900;letter-spacing:-.25px}
 .card h3{margin:0 0 10px;font-size:14px;font-weight:800}
 .row{display:flex;justify-content:space-between;align-items:center;gap:10px}.muted{color:var(--muted)}.small{font-size:12px}.tiny{font-size:11px}
@@ -56,18 +55,18 @@ h1{margin:0;font-size:20px;line-height:1.2;font-weight:900;letter-spacing:-.3px}
 .bar-row{display:grid;grid-template-columns:110px 1fr 68px;gap:8px;align-items:center;font-size:12px}
 .bar-track{height:11px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden}.bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--green),var(--green2));min-width:2px}.bar-label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bar-num{text-align:left;font-weight:800}
 .match-list-wrap{max-width:830px;margin:0 auto}.match-grid{display:grid;gap:12px;margin-top:10px}
-.match-card{display:grid;gap:11px;padding:14px 14px 13px;border-radius:24px;background:linear-gradient(180deg,rgba(22,17,58,.98),rgba(17,13,44,.98));border:1px solid rgba(255,255,255,.09);box-shadow:var(--shadow-soft)}
-.match-card.premium{background:linear-gradient(180deg,rgba(28,19,73,.98),rgba(18,13,49,.98));}
+.match-card{display:grid;gap:8px;padding:12px;border-radius:18px;background:linear-gradient(180deg,rgba(22,17,58,.96),rgba(17,13,44,.96));border:1px solid rgba(255,255,255,.09);box-shadow:var(--shadow-soft)}
+.match-card.premium{background:linear-gradient(180deg,rgba(28,19,73,.96),rgba(18,13,49,.96));}
 .match-meta{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:11px;color:#c8c0ec}.group-badge{font-weight:800}.vote-pill{font-size:11px}
 .match-hero{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center}
 .team-side{display:grid;gap:4px}.team-side.right{text-align:left}
-.team-full{font-size:22px;font-weight:900;line-height:1.25;color:#fff}.team-flagline{font-size:12px;color:#a9a0d6;font-weight:800}
+.team-full{font-size:18px;font-weight:900;line-height:1.25;color:#fff}.team-flagline{font-size:12px;color:#a9a0d6;font-weight:800}
 .vs{font-size:16px;font-weight:900;color:#8177b7}
 .pick-label{text-align:center;font-size:11px;color:#bcb4e4;min-height:14px}.pick-label strong{color:#fff}
 .stacked-wrap{display:grid;gap:8px}.segment-bar{display:flex;width:100%;height:9px;border-radius:999px;overflow:hidden;background:rgba(255,255,255,.06)}.segment{height:100%}.seg-home{background:var(--blue)}.seg-draw{background:var(--amber)}.seg-away{background:var(--pink)}
 .legend3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;align-items:end}
 .legend-item{display:grid;gap:2px;font-size:11px;color:#cac3ea}.legend-item.right{text-align:right}.legend-item.center{text-align:center}.legend-item.left{text-align:left}
-.legend-item .count{font-size:19px;line-height:1;font-weight:900}.legend-item.active .label{color:#fff;font-weight:900}.legend-item.active .count{text-shadow:0 0 12px rgba(255,255,255,.18)}
+.legend-item .count{font-size:16px;line-height:1;font-weight:900}.legend-item.active .label{color:#fff;font-weight:900}.legend-item.active .count{text-shadow:0 0 12px rgba(255,255,255,.18)}
 .count.home{color:var(--blue)}.count.draw{color:var(--amber)}.count.away{color:var(--pink)}
 .participant-layout{display:grid;gap:14px}.participant-list{display:grid;gap:8px;max-height:none;overflow:auto;padding-right:2px}
 .participant-card{display:grid;gap:6px;padding:12px;border-radius:18px;background:rgba(255,255,255,.045);border:1px solid var(--line);cursor:pointer;transition:.18s ease}.participant-card:hover{transform:translateY(-1px)}.participant-card.active{border-color:rgba(25,241,162,.25);background:rgba(25,241,162,.08)}
@@ -84,9 +83,8 @@ details.group-block{border:1px solid var(--line);background:rgba(255,255,255,.03
 @media (min-width:760px){
   .app{padding-bottom:32px}
   .top{padding-bottom:18px}
-  .kpis{grid-template-columns:repeat(5,1fr)}
   .nav{position:relative;top:auto;bottom:auto;background:transparent;border:0;backdrop-filter:none;padding:10px 0}
-  .nav-inner{max-width:none;grid-template-columns:repeat(7,minmax(104px,1fr))}
+  .nav-inner{max-width:none;grid-template-columns:repeat(5,minmax(110px,1fr))}
   .nav button{flex-direction:row;justify-content:center;font-size:13px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
   .grid.two{grid-template-columns:repeat(2,1fr)}
   .grid.three{grid-template-columns:repeat(3,1fr)}
@@ -106,6 +104,14 @@ details.group-block{border:1px solid var(--line);background:rgba(255,255,255,.03
 .leaderboard-table th{color:#bffff0;font-weight:900;background:rgba(25,241,162,.06)}
 .leaderboard-table tr:last-child td{border-bottom:0}
 .leaderboard-table td.score-cell{font-weight:900;color:#f4fff9}
+.leaderboard-cards{display:grid;gap:8px}
+.leaderboard-card{display:grid;gap:8px;padding:12px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.leaderboard-card-head{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.leaderboard-card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.leaderboard-card-grid div{padding:8px;border-radius:12px;background:rgba(255,255,255,.035);text-align:center}
+.leaderboard-card-grid b{display:block;font-size:15px}
+@media(max-width:640px){.table-wrap{display:none}.leaderboard-table{min-width:0}.leaderboard-card-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:641px){.leaderboard-cards{display:none}}
 .registered-results{display:grid;gap:10px;margin-top:10px}
 .result-card{display:grid;gap:7px;padding:12px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
 .result-teams{display:flex;justify-content:space-between;gap:10px;align-items:center;font-weight:900}
@@ -137,6 +143,34 @@ details.group-block{border:1px solid var(--line);background:rgba(255,255,255,.03
 .stage-analysis-team{text-align:left;font-size:13px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#f2fff8}
 @media(max-width:520px){.stage-analysis-row{grid-template-columns:36px 1fr 116px}.stage-analysis-team{font-size:12px}.team-full{font-size:20px}}
 
+.home-leaders{display:grid;gap:8px}
+.home-leader{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:10px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.tie-note{font-size:11px;color:var(--muted);line-height:1.7;margin-top:8px}
+.home-status{display:grid;gap:10px}
+.home-result{display:grid;gap:8px;padding:12px;border-radius:16px;background:rgba(25,241,162,.07);border:1px solid rgba(25,241,162,.18)}
+.home-scoreline{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;font-weight:900}
+.home-score{direction:ltr;color:var(--green2);font-size:20px}
+.home-match-row{display:grid;gap:5px;padding:10px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.home-match-row strong{font-size:13px}
+.find-card{display:grid;gap:8px}
+.find-actions{display:grid;grid-template-columns:minmax(0,260px) auto;gap:8px;align-items:center}
+.find-actions .select{height:42px;padding:8px 11px;border-radius:14px;font-size:14px;font-weight:800}
+.find-actions .btn-chip{height:42px;padding:8px 13px}
+.home-self-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.home-self-stats div{padding:8px;border-radius:12px;background:rgba(255,255,255,.035);border:1px solid var(--line);text-align:center}
+.home-self-stats b{display:block;font-size:15px}
+.rank-dot{width:30px;height:30px;border-radius:999px;display:grid;place-items:center;background:rgba(25,241,162,.13);color:#dfffee;font-weight:900}
+.quick-card{display:grid;gap:6px;min-height:86px;cursor:pointer}
+.quick-card b{font-size:22px;line-height:1}
+.quick-card .more-icon{width:34px;height:34px;border-radius:999px;display:grid;place-items:center;background:rgba(25,241,162,.13);color:var(--green2);font-size:20px}
+.home-shortcuts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.home-shortcut{display:grid;gap:5px;text-align:right;cursor:pointer;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--text);border-radius:16px;padding:12px}
+.home-shortcut b{font-size:13px}.home-shortcut span{font-size:11px;color:var(--muted)}
+.more-grid{display:grid;gap:10px;margin-top:10px}
+.more-card{display:grid;gap:6px;text-align:right;cursor:pointer;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--text);border-radius:16px;padding:13px}
+.more-card:hover{border-color:rgba(25,241,162,.28);background:rgba(25,241,162,.07)}
+@media (min-width:760px){.more-grid{grid-template-columns:repeat(2,1fr)}}
+
 select{color-scheme:dark}select option{background:#0d1914;color:#f4fff9}.participant-list-drawer{margin-top:14px}.participant-list-drawer summary{display:flex;justify-content:space-between;align-items:center}.participant-list-drawer summary::after{content:'بازکردن';font-size:11px;color:var(--muted);font-weight:700}.participant-list-drawer[open] summary::after{content:'بستن'}
 
 .personal-card{position:relative;overflow:hidden;border-radius:26px;padding:18px;margin-bottom:12px;background:radial-gradient(520px 180px at 20% 0%,rgba(25,241,162,.24),transparent 65%),linear-gradient(135deg,rgba(10,44,33,.98),rgba(9,21,16,.98));border:1px solid rgba(25,241,162,.28);box-shadow:0 22px 48px rgba(0,0,0,.30)}
@@ -150,46 +184,81 @@ select{color-scheme:dark}select option{background:#0d1914;color:#f4fff9}.partici
 .personal-card-footer{position:relative;display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px}.personal-mini-stat{padding:10px;border-radius:16px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.08);text-align:center}.personal-mini-stat strong{display:block;font-size:19px}.personal-mini-stat small{color:var(--muted);font-size:11px}
 .personal-actions{position:relative;display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.personal-btn{border:0;background:var(--green);color:#042014;border-radius:14px;padding:10px 12px;font-weight:900;cursor:pointer}.personal-btn.secondary{background:rgba(255,255,255,.07);color:#eafff3;border:1px solid var(--line)}
 @media (max-width:430px){.personal-card-row{grid-template-columns:1fr}.personal-card-footer{grid-template-columns:1fr 1fr}.personal-card-title{font-size:18px}}
+@media (max-width:430px){.home-scoreline{grid-template-columns:1fr;text-align:center}.find-actions{grid-template-columns:1fr}.home-self-stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:430px){.home-shortcuts{grid-template-columns:1fr}}
 
 </style>
 </head>
 <body>
 <div class="app">
 
-  <nav class="nav"><div class="nav-inner">
-    <button data-tab="overview" class="active"><span class="ico">🏠</span><span>خلاصه</span></button>
-    <button data-tab="participants"><span class="ico">👤</span><span>افراد</span></button>
-    <button data-tab="matches"><span class="ico">📅</span><span>بازی‌ها</span></button>
-    <button data-tab="numbers"><span class="ico">📆</span><span>برنامه بازی‌ها</span></button>
-    <button data-tab="standings"><span class="ico">#</span><span>جدول امتیازها</span></button>
-    <button data-tab="stages"><span class="ico">🏆</span><span>مراحل</span></button>
-    <button data-tab="compare"><span class="ico">⚔️</span><span>مقایسه</span></button>
-  </div></nav>
-
-  <main>
-    <section id="overview" class="section active">
-
-      <header class="top">
+  <header class="top">
     <div class="brand">
       <div class="hero">
         <div class="logo">⚽</div>
         <div>
-          <h1>داشبورد پیش‌بینی دوستان</h1>
-          <div class="sub">نسخه polished و موبایل‌محور برای مرور پیش‌بینی‌های جام جهانی ۲۰۲۶ — با تمرکز روی افراد، بازی‌ها و مراحل حذفی.</div>
+          <h1>جام جهانی ۲۰۲۶</h1>
+          <div class="sub">۷۸ شرکت‌کننده • ۱۲ گروه • ۷۲ بازی</div>
         </div>
       </div>
-      <div class="pill glow">نسخه v12</div>
+      <div class="pill">نسخه v12</div>
     </div>
-    <div id="kpis" class="kpis"></div>
-      </header>
+  </header>
 
+  <nav class="nav"><div class="nav-inner">
+    <button data-tab="overview" class="active"><span class="ico">🏠</span><span>خانه</span></button>
+    <button data-tab="standings"><span class="ico">#</span><span>جدول امتیازها</span></button>
+    <button data-tab="matches"><span class="ico">📅</span><span>بازی‌ها</span></button>
+    <button data-tab="participants"><span class="ico">👤</span><span>افراد</span></button>
+    <button data-tab="more"><span class="ico">⋯</span><span>بیشتر</span></button>
+  </div></nav>
+
+  <main>
+    <section id="overview" class="section active">
       <div class="grid two">
-        <div class="card premium"><h2>قهرمان‌های محبوب</h2><div id="championBars" class="bars"></div></div>
-        <div class="card premium"><h2>فینالیست‌های محبوب</h2><div id="finalistBars" class="bars"></div></div>
+        <div class="card premium">
+          <div class="row" style="margin-bottom:10px">
+            <div>
+              <h2 style="margin:0">صدر جدول فعلی</h2>
+              <div id="homeLeaderboardSub" class="small muted" style="margin-top:4px">بر اساس ۰ بازی ثبت‌شده</div>
+            </div>
+            <button class="btn-chip" type="button" onclick="showTab('standings')">مشاهده جدول کامل</button>
+          </div>
+          <div id="homeTopStandings" class="home-leaders"></div>
+        </div>
+        <div class="card premium">
+          <h2>آخرین نتایج</h2>
+          <div id="homeStatus" class="home-status"></div>
+        </div>
       </div>
       <div class="grid two">
-        <div class="card"><h2>بازی‌های با بیشترین اختلاف نظر</h2><div id="disputedList" class="match-list-wrap match-grid"></div></div>
-        <div class="card"><h2>بازی‌های با بیشترین اجماع</h2><div id="consensusList" class="match-list-wrap match-grid"></div></div>
+        <div class="card find-card">
+          <div>
+            <h2 style="margin-bottom:4px">پیش‌بینی خودت را ببین</h2>
+          </div>
+          <div class="find-actions">
+            <select id="homeParticipantSelect" class="select"></select>
+            <button class="btn-chip" type="button" onclick="openHomeParticipant()">باز کن</button>
+          </div>
+          <div id="homeSelfStats" class="home-self-stats"></div>
+        </div>
+        <div class="card">
+          <div class="row" style="margin-bottom:10px">
+            <h2 style="margin:0">نزدیک‌ترین بازی‌ها</h2>
+            <button class="btn-chip" type="button" onclick="showTab('matches')">همه بازی‌ها</button>
+          </div>
+          <div id="homeUpcoming" class="home-status"></div>
+        </div>
+      </div>
+      <div class="home-shortcuts">
+        <button class="home-shortcut" type="button" onclick="showTab('stages')">
+          <b>تحلیل مراحل</b>
+          <span>محبوبیت تیم‌ها در مسیر حذفی</span>
+        </button>
+        <button class="home-shortcut" type="button" onclick="showTab('compare')">
+          <b>مقایسه دو شرکت‌کننده</b>
+          <span>اختلاف و شباهت پیش‌بینی‌ها</span>
+        </button>
       </div>
     </section>
 
@@ -285,6 +354,30 @@ select{color-scheme:dark}select option{background:#0d1914;color:#f4fff9}.partici
         <div id="stageRows" class="stage-pred-list"></div>
       </div>
     </section>
+
+    <section id="more" class="section">
+      <div class="card premium">
+        <h2>بیشتر</h2>
+        <div class="small muted">تحلیل‌های کامل‌تر اینجا هستند تا صفحه اول خلوت بماند.</div>
+        <div class="more-grid">
+          <button class="more-card" type="button" onclick="showTab('stages')"><b>تحلیل مراحل</b><span class="small muted">محبوبیت تیم‌ها در هر مرحله حذفی</span></button>
+          <button class="more-card" type="button" onclick="showTab('compare')"><b>مقایسه دو نفر</b><span class="small muted">شباهت‌ها و اختلاف پیش‌بینی دو شرکت‌کننده</span></button>
+          <button class="more-card" type="button" onclick="showTab('numbers')"><b>برنامه بازی‌ها</b><span class="small muted">تاریخ، ساعت تهران و شماره بازی‌ها</span></button>
+          <button class="more-card" type="button" onclick="document.getElementById('moreChampions').scrollIntoView({behavior:'smooth', block:'start'})"><b>قهرمان‌های محبوب</b><span class="small muted">بیشترین انتخاب برای قهرمانی</span></button>
+          <button class="more-card" type="button" onclick="document.getElementById('moreFinalists').scrollIntoView({behavior:'smooth', block:'start'})"><b>فینالیست‌های محبوب</b><span class="small muted">تیم‌هایی که بیشتر به فینال رسیده‌اند</span></button>
+          <button class="more-card" type="button" onclick="document.getElementById('moreDisputed').scrollIntoView({behavior:'smooth', block:'start'})"><b>بیشترین اختلاف نظر</b><span class="small muted">بازی‌هایی با توزیع نزدیک‌تر آرا</span></button>
+          <button class="more-card" type="button" onclick="document.getElementById('moreConsensus').scrollIntoView({behavior:'smooth', block:'start'})"><b>بیشترین اجماع</b><span class="small muted">بازی‌هایی با رأی غالب واضح‌تر</span></button>
+        </div>
+      </div>
+      <div class="grid two">
+        <div id="moreChampions" class="card"><h2>قهرمان‌های محبوب</h2><div id="championBars" class="bars"></div></div>
+        <div id="moreFinalists" class="card"><h2>فینالیست‌های محبوب</h2><div id="finalistBars" class="bars"></div></div>
+      </div>
+      <div class="grid two">
+        <div id="moreDisputed" class="card"><h2>بازی‌های با بیشترین اختلاف نظر</h2><div id="disputedList" class="match-list-wrap match-grid"></div></div>
+        <div id="moreConsensus" class="card"><h2>بازی‌های با بیشترین اجماع</h2><div id="consensusList" class="match-list-wrap match-grid"></div></div>
+      </div>
+    </section>
 </main>
 </div>
 
@@ -312,6 +405,7 @@ const DEFAULT_SCORING_RULES = {
 let scoringRules = DEFAULT_SCORING_RULES;
 let mergedResults = EMPTY_RESULTS;
 let leaderboardRows = [];
+let fixtureByMatchId = new Map();
 
 async function fetchJsonSafe(url, fallback){
   try {
@@ -352,6 +446,16 @@ function resultChoice(result, match){
 
 function isGroupStageResult(result, match){
   return (result.stage || 'group') === 'group' && !!match && result.status === 'finished';
+}
+
+function getResultForMatch(matchId){
+  return mergedResults.matches.find(result => String(result.matchId) === String(matchId));
+}
+
+function countCorrectPredictions(match, result){
+  if(!match || !result) return 0;
+  const choice = String(resultChoice(result, match)).trim();
+  return D.participants.filter(p => (p.matches || []).some(pm => String(pm.id) === String(match.id) && String(pm.choice || '').trim() === choice)).length;
 }
 
 function scoreParticipant(p){
@@ -399,6 +503,18 @@ function renderLeaderboard(){
   const target = $('#leaderboard');
   if(!target) return;
   target.innerHTML = `
+    <div class="leaderboard-cards">
+      ${leaderboardRows.map(row => `
+        <div class="leaderboard-card">
+          <div class="leaderboard-card-head"><b>${fmt(row.rank)}. ${esc(row.name)}</b><span class="pill">${fmt(row.totalPoints)} امتیاز</span></div>
+          <div class="leaderboard-card-grid">
+            <div><b>${fmt(row.matchPoints)}</b><span class="tiny muted">بازی‌ها</span></div>
+            <div><b>${fmt(row.specialPoints)}</b><span class="tiny muted">سوالات ویژه</span></div>
+            <div><b>${fmt(row.correctPredictions)}</b><span class="tiny muted">صحیح</span></div>
+            <div><b>${fmt(row.reviewedMatches)}</b><span class="tiny muted">بررسی‌شده</span></div>
+          </div>
+        </div>`).join('')}
+    </div>
     <div class="table-wrap">
       <table class="leaderboard-table">
         <thead>
@@ -447,6 +563,7 @@ function renderRegisteredResults(){
 function renderScoring(){
   renderLeaderboard();
   renderRegisteredResults();
+  renderHome();
 }
 
 async function loadScoringData(){
@@ -457,6 +574,7 @@ async function loadScoringData(){
   scoringRules = rules || DEFAULT_SCORING_RULES;
   mergedResults = mergeResultPayloads(cached, manual);
   renderScoring();
+  renderMatches();
   const selectedId = $('#participantSelect')?.value;
   if(selectedId) renderParticipantDetail(selectedId);
 }
@@ -471,17 +589,6 @@ function participantScoreSummary(p){
       <div class="compact-stat"><b>${fmt(score.correctPredictions)}</b><span class="tiny muted">پیش‌بینی صحیح</span></div>
       <div class="compact-stat"><b>${fmt(score.reviewedMatches)}</b><span class="tiny muted">بازی‌های بررسی‌شده</span></div>
     </div>`;
-}
-
-function makeKpis(){
-  const items = [
-    [fmt(D.summary.participantCount), 'تعداد شرکت‌کننده'],
-    [fmt(D.summary.matchCount), 'تعداد بازی‌های گروهی'],
-    [D.summary.topChampion ? `${D.summary.topChampion.flag||''} ${D.summary.topChampion.team}` : '-', 'قهرمان محبوب'],
-    [D.summary.topFinalist ? `${D.summary.topFinalist.flag||''} ${D.summary.topFinalist.team}` : '-', 'فینالیست محبوب'],
-    [D.summary.mostDisputedMatch?.name || '-', 'بازی پر اختلاف']
-  ];
-  $('#kpis').innerHTML = items.map(([a,b]) => `<div class="kpi"><div class="num">${esc(a)}</div><div class="lbl">${esc(b)}</div></div>`).join('');
 }
 
 function chips(arr, cls=''){
@@ -501,6 +608,8 @@ function barRows(items, limit=8){
 }
 
 function stackedCard(m, selectedChoice=null){
+  const fixture = fixtureByMatchId.get(String(m.id));
+  const result = getResultForMatch(m.id);
   const dist = m.distribution || [];
   const dHome = dist[0] || {count:0};
   const dDraw = dist[1] || {count:0};
@@ -512,6 +621,10 @@ function stackedCard(m, selectedChoice=null){
   const activeDraw = selectedChoice && dDraw.choice===selectedChoice ? 'active' : '';
   const activeAway = selectedChoice && dAway.choice===selectedChoice ? 'active' : '';
   const pickNote = selectedChoice ? `<div class="pick-label">انتخاب این فرد: <strong>${esc(selectedChoice)}</strong></div>` : `<div class="pick-label">${fmt(total)} رأی ثبت شده</div>`;
+  const awayScore = result ? `<span class="result-score">${fmt(result.awayScore90)}</span>` : '';
+  const homeScore = result ? `<span class="result-score">${fmt(result.homeScore90)}</span>` : '';
+  const resultLine = result ? `<span class="fixture-chip">${fmt(countCorrectPredictions(m, result))} پیش‌بینی صحیح</span>` : '';
+  const fixtureLine = fixture ? `<div class="fixture-meta-line"><span class="fixture-chip">${esc(fixture.date)}</span><span class="fixture-chip">${esc(fixture.time)}</span>${resultLine}</div>` : (result ? `<div class="fixture-meta-line">${resultLine}</div>` : '');
   return `
     <div class="match-card premium">
       <div class="match-meta">
@@ -520,15 +633,16 @@ function stackedCard(m, selectedChoice=null){
       </div>
       <div class="match-hero">
         <div class="team-side">
-          <div class="team-full">${esc(m.team2||'')}</div>
+          <div class="team-full">${esc(m.team2||'')} ${awayScore}</div>
           <div class="team-flagline">${m.flag2||''}</div>
         </div>
         <div class="vs">VS</div>
         <div class="team-side right">
-          <div class="team-full">${esc(m.team1||'')}</div>
+          <div class="team-full">${homeScore} ${esc(m.team1||'')}</div>
           <div class="team-flagline">${m.flag1||''}</div>
         </div>
       </div>
+      ${fixtureLine}
       ${pickNote}
       <div class="stacked-wrap">
         <div class="segment-bar">
@@ -554,11 +668,97 @@ function stackedCard(m, selectedChoice=null){
     </div>`;
 }
 
-function renderOverview(){
+function fixtureLabel(fixture){
+  return fixture ? `${esc(fixture.date)} · ${esc(fixture.time)}` : '';
+}
+
+function matchTeamsLabel(match){
+  return `${match.flag1 || ''} ${esc(match.team1 || '')} - ${esc(match.team2 || '')} ${match.flag2 || ''}`;
+}
+
+function upcomingFixtures(limit=3){
+  return Array.from(fixtureByMatchId.values())
+    .filter(f => !getResultForMatch(f.id))
+    .sort((a,b) => a.no - b.no)
+    .slice(0, limit);
+}
+
+function latestResults(limit=3){
+  return [...mergedResults.matches]
+    .sort((a,b) => String(b.updatedAt || b.matchId).localeCompare(String(a.updatedAt || a.matchId)))
+    .slice(0, limit);
+}
+
+function renderHomeResult(result, label='نتیجه ثبت‌شده'){
+  const match = D.matches.find(m => String(m.id) === String(result.matchId));
+  const home = result.homeTeam || match?.team1 || '-';
+  const away = result.awayTeam || match?.team2 || '-';
+  return `
+    <div class="home-result">
+      <div class="home-scoreline"><span>${esc(home)}</span><span class="home-score">${fmt(result.homeScore90)} - ${fmt(result.awayScore90)}</span><span>${esc(away)}</span></div>
+      <div class="small muted">${fmt(countCorrectPredictions(match, result))} نفر درست پیش‌بینی کردند.</div>
+    </div>`;
+}
+
+function renderHomeSelfStats(id){
+  const target = $('#homeSelfStats');
+  if(!target) return;
+  const p = D.participants.find(x => String(x.id) === String(id)) || D.participants[0];
+  if(!p) {
+    target.innerHTML = '';
+    return;
+  }
+  calculateLeaderboard();
+  const row = leaderboardRows.find(x => String(x.id) === String(p.id)) || scoreParticipant(p);
+  target.innerHTML = `
+    <div><b>${fmt(row.rank || '-')}</b><span class="tiny muted">رتبه</span></div>
+    <div><b>${fmt(row.totalPoints)}</b><span class="tiny muted">امتیاز</span></div>
+    <div><b>${fmt(row.correctPredictions)}</b><span class="tiny muted">پیش‌بینی صحیح</span></div>
+    <div><b>${fmt(row.reviewedMatches)}</b><span class="tiny muted">بازی بررسی‌شده</span></div>`;
+}
+
+function renderHome(){
   $('#championBars').innerHTML = barRows(D.champions, 8);
   $('#finalistBars').innerHTML = barRows(D.finalists, 8);
   $('#disputedList').innerHTML = D.disputedMatches.slice(0,4).map(m => stackedCard(m)).join('');
   $('#consensusList').innerHTML = D.consensusMatches.slice(0,4).map(m => stackedCard(m)).join('');
+  calculateLeaderboard();
+  $('#homeLeaderboardSub').textContent = `بر اساس ${fmt(mergedResults.matches.length)} بازی ثبت‌شده`;
+
+  const statusTarget = $('#homeStatus');
+  const recent = latestResults(3);
+  if(recent.length){
+    statusTarget.innerHTML = recent.map((result, index) => renderHomeResult(result, index === 0 ? 'آخرین نتیجه ثبت‌شده' : 'نتیجه اخیر')).join('');
+  } else {
+    const first = upcomingFixtures(1)[0] || Array.from(fixtureByMatchId.values()).sort((a,b) => a.no - b.no)[0];
+    const match = first ? D.matches.find(m => String(m.id) === String(first.id)) : null;
+    statusTarget.innerHTML = `
+      <div class="muted small">هنوز نتیجه‌ای ثبت نشده است.</div>
+      ${match ? `<div class="home-match-row"><strong>${matchTeamsLabel(match)}</strong><span class="tiny muted">Group ${esc(match.group)} · ${fixtureLabel(first)}</span></div>` : ''}`;
+  }
+
+  const standingsTarget = $('#homeTopStandings');
+  if(!mergedResults.matches.length){
+    standingsTarget.innerHTML = '<div class="muted small">جدول امتیازها بعد از ثبت اولین نتیجه فعال می‌شود.</div>';
+  } else {
+    const top = leaderboardRows.slice(0,3);
+    const third = top[2];
+    const sameAsThirdOutsideTop = third ? leaderboardRows.slice(3).filter(row => row.totalPoints === third.totalPoints).length : 0;
+    standingsTarget.innerHTML = leaderboardRows.slice(0,3).map(row => `
+      <div class="home-leader">
+        <div class="rank-dot">${fmt(row.rank)}</div>
+        <div><b>${esc(row.name)}</b></div>
+        <div class="score-cell">${fmt(row.totalPoints)}</div>
+      </div>`).join('') + (sameAsThirdOutsideTop ? `<div class="tie-note">${fmt(sameAsThirdOutsideTop)} نفر دیگر هم با امتیاز ${fmt(third.totalPoints)} هم‌امتیاز نفر سوم هستند.</div>` : '<div class="tie-note">در تساوی امتیاز، پیش‌بینی صحیح بیشتر رتبه را بهتر می‌کند.</div>');
+  }
+
+  renderHomeSelfStats($('#homeParticipantSelect')?.value || D.participants[0]?.id);
+
+  $('#homeUpcoming').innerHTML = upcomingFixtures(3).map(fixture => {
+    const match = D.matches.find(m => String(m.id) === String(fixture.id));
+    if(!match) return '';
+    return `<div class="home-match-row"><strong>${matchTeamsLabel(match)}</strong><span class="tiny muted">Group ${esc(match.group)} · ${fixtureLabel(fixture)}</span></div>`;
+  }).join('') || '<div class="muted small">بازی پیش‌رویی پیدا نشد.</div>';
 }
 
 function groupMatchesForParticipant(p){
@@ -689,7 +889,13 @@ function renderParticipantDetail(id){
 
 function renderParticipantList(){
   const sel = $('#participantSelect');
-  sel.innerHTML = D.participants.map(p => `<option value="${p.id}">${esc(p.name)}</option>`).join('');
+  const participantOptions = D.participants.map(p => `<option value="${p.id}">${esc(p.name)}</option>`).join('');
+  sel.innerHTML = participantOptions;
+  const homeSel = $('#homeParticipantSelect');
+  if(homeSel) {
+    homeSel.innerHTML = participantOptions;
+    homeSel.onchange = e => renderHomeSelfStats(e.target.value);
+  }
   function draw(){
     const q = $('#participantSearch').value.trim().toLowerCase();
     const items = D.participants.filter(p => !q || p.name.toLowerCase().includes(q));
@@ -704,6 +910,13 @@ function renderParticipantList(){
   sel.onchange = e => renderParticipantDetail(e.target.value);
   draw();
   renderParticipantDetail(D.participants[0]?.id);
+}
+
+function openHomeParticipant(){
+  const id = $('#homeParticipantSelect')?.value;
+  if(!id) return;
+  renderParticipantDetail(id);
+  showTab('participants');
 }
 
 function compareParticipants(){
@@ -728,10 +941,7 @@ function compareParticipants(){
     });
     const sameChampion = (a.champion?.team || '') === (b.champion?.team || '');
     const sameFinalists = JSON.stringify((a.finalists||[]).map(x=>x.team).sort()) === JSON.stringify((b.finalists||[]).map(x=>x.team).sort());
-    $('#compareStats').innerHTML = `
-      <div class="compact-stat"><b>${fmt(same)}</b><span class="tiny muted">مشترک</span></div>
-      <div class="compact-stat"><b>${fmt(diff)}</b><span class="tiny muted">اختلاف</span></div>
-      <div class="compact-stat"><b>${sameChampion ? 'بله' : 'خیر'}</b><span class="tiny muted">قهرمان مشترک</span></div>`;
+    $('#compareStats').innerHTML = '';
     $('#comparePanel').innerHTML = `
       <div class="compare-head">
         <div class="compare-box">
@@ -775,7 +985,7 @@ function fixtureCard(item){
   if(!m) return '';
   return `<div class="numbered-wrap">
     <div class="number-badge">بازی ${fmt(item.no)}</div>
-    ${stackedCard(m).replace('<div class="stacked-wrap">', `<div class="fixture-meta-line"><span class="fixture-chip">${esc(item.time)}</span><span class="fixture-chip">${esc(item.venue)}</span><span class="fixture-chip">Group ${esc(m.group)}</span></div><div class="stacked-wrap">`)}
+    ${stackedCard(m)}
   </div>`;
 }
 
@@ -854,6 +1064,7 @@ function renderNumberedMatches(){
     {no:71,id:59,date:'۷ تیر ۱۴۰۵',day:'زمان تهران',time:'۰۵:۳۰ تهران',venue:'Dallas Stadium'},
     {no:72,id:60,date:'۷ تیر ۱۴۰۵',day:'زمان تهران',time:'۰۵:۳۰ تهران',venue:'Kansas City Stadium'}
   ];
+  fixtureByMatchId = new Map(fixtures.map(f => [String(f.id), f]));
   const dates = ['all', ...Array.from(new Set(fixtures.map(f => f.date)))];
   let active = 'all';
   $('#numberRanges').innerHTML = dates.map(d => `<button class="btn-chip ${d==='all'?'active':''}" data-range="${d}">${d==='all' ? 'همه روزها' : d}</button>`).join('');
@@ -880,19 +1091,28 @@ function renderNumberedMatches(){
 }
 
 function renderMatches(){
-  const groups = ['All', 'Disputed', 'Consensus', ...new Set(D.matches.map(m => m.group))];
-  let active = 'All';
+  const groups = ['Upcoming', 'Registered', 'Disputed', 'Consensus', ...new Set(D.matches.map(m => m.group))];
+  let active = 'Upcoming';
   function label(g){
-    if(g === 'All') return 'همه گروه‌ها';
-    if(g === 'Disputed') return 'بازی‌ها با بیشترین اختلاف نظر';
-    if(g === 'Consensus') return 'بازی‌ها با بیشترین اجماع';
+    if(g === 'Upcoming') return 'پیش رو';
+    if(g === 'Registered') return 'ثبت‌شده';
+    if(g === 'Disputed') return 'اختلاف';
+    if(g === 'Consensus') return 'اجماع';
     return 'Group ' + g;
   }
-  $('#groupFilters').innerHTML = groups.map(g => `<button class="btn-chip ${g==='All'?'active':''}" data-group="${g}">${label(g)}</button>`).join('');
+  $('#groupFilters').innerHTML = groups.map(g => `<button class="btn-chip ${g===active?'active':''}" data-group="${g}">${label(g)}</button>`).join('');
+  function byFixtureOrder(a, b){
+    const aResult = !!getResultForMatch(a.id);
+    const bResult = !!getResultForMatch(b.id);
+    if(aResult !== bResult) return aResult ? 1 : -1;
+    return (fixtureByMatchId.get(String(a.id))?.no || 999) - (fixtureByMatchId.get(String(b.id))?.no || 999);
+  }
   function draw(){
     const q = $('#matchSearch').value.trim();
-    let base = D.matches;
-    if(active === 'Disputed') base = D.disputedMatches || [];
+    let base = [...D.matches].sort(byFixtureOrder);
+    if(active === 'Upcoming') base = D.matches.filter(m => !getResultForMatch(m.id)).sort((a,b) => (fixtureByMatchId.get(String(a.id))?.no || 999) - (fixtureByMatchId.get(String(b.id))?.no || 999));
+    else if(active === 'Registered') base = D.matches.filter(m => getResultForMatch(m.id));
+    else if(active === 'Disputed') base = D.disputedMatches || [];
     else if(active === 'Consensus') base = D.consensusMatches || [];
     else if(active !== 'All') base = D.matches.filter(m => m.group === active);
     const items = base.filter(m => !q || (m.name + m.team1 + m.team2).includes(q));
@@ -947,18 +1167,26 @@ function renderShare(){
   };
 }
 
-$$('.nav button').forEach(btn => btn.onclick = () => {
-  $$('.nav button').forEach(b => b.classList.toggle('active', b===btn));
-  $$('.section').forEach(s => s.classList.toggle('active', s.id===btn.dataset.tab));
-  window.scrollTo({top:0, behavior:'smooth'});
-});
+function showTab(tabId, anchorId=null){
+  $$('.section').forEach(s => s.classList.toggle('active', s.id===tabId));
+  const primaryTabs = ['overview', 'standings', 'matches', 'participants', 'more'];
+  const activeNav = primaryTabs.includes(tabId) ? tabId : 'more';
+  $$('.nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === activeNav));
+  const target = anchorId ? document.getElementById(anchorId) : null;
+  if(target) {
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 40);
+  } else {
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+}
 
-makeKpis();
-renderOverview();
+$$('.nav button').forEach(btn => btn.onclick = () => showTab(btn.dataset.tab));
+
 renderParticipantList();
 compareParticipants();
-renderMatches();
 renderNumberedMatches();
+renderHome();
+renderMatches();
 renderStages();
 loadScoringData();
 
