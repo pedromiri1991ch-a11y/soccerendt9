@@ -27,31 +27,13 @@ exports.handler = async (event) => {
   }
 
   const matchId = Number(body.matchId);
-  const homeScore90 = Number(body.homeScore90);
-  const awayScore90 = Number(body.awayScore90);
+  const action = body.action === "delete" ? "delete" : "save";
 
   if (!Number.isInteger(matchId) || matchId <= 0) {
     return json({ ok: false, message: "Invalid matchId." }, 400);
   }
-  if (!Number.isFinite(homeScore90) || !Number.isFinite(awayScore90) || homeScore90 < 0 || awayScore90 < 0) {
-    return json({ ok: false, message: "Invalid score." }, 400);
-  }
-  if (!body.homeTeam || !body.awayTeam) {
-    return json({ ok: false, message: "Invalid teams." }, 400);
-  }
 
   const updatedAt = new Date().toISOString();
-  const result = {
-    matchId,
-    stage: body.stage || "group",
-    homeTeam: String(body.homeTeam),
-    awayTeam: String(body.awayTeam),
-    homeScore90,
-    awayScore90,
-    status: "finished",
-    source: "manual-admin",
-    updatedAt
-  };
 
   try {
     connectLambda(event);
@@ -59,7 +41,31 @@ exports.handler = async (event) => {
     const current = (await store.get("latest-results", { type: "json" })) || EMPTY_RESULTS;
     const byId = new Map((Array.isArray(current.matches) ? current.matches : []).map((item) => [String(item.matchId), item]));
 
-    byId.set(String(matchId), result);
+    if (action === "delete") {
+      byId.delete(String(matchId));
+    } else {
+      const homeScore90 = Number(body.homeScore90);
+      const awayScore90 = Number(body.awayScore90);
+
+      if (!Number.isFinite(homeScore90) || !Number.isFinite(awayScore90) || homeScore90 < 0 || awayScore90 < 0) {
+        return json({ ok: false, message: "Invalid score." }, 400);
+      }
+      if (!body.homeTeam || !body.awayTeam) {
+        return json({ ok: false, message: "Invalid teams." }, 400);
+      }
+
+      byId.set(String(matchId), {
+        matchId,
+        stage: body.stage || "group",
+        homeTeam: String(body.homeTeam),
+        awayTeam: String(body.awayTeam),
+        homeScore90,
+        awayScore90,
+        status: "finished",
+        source: "manual-admin",
+        updatedAt
+      });
+    }
 
     const data = {
       lastUpdated: updatedAt,
@@ -70,7 +76,7 @@ exports.handler = async (event) => {
 
     return json({
       ok: true,
-      message: "Result saved.",
+      message: action === "delete" ? "Result deleted." : "Result saved.",
       data
     });
   } catch (error) {

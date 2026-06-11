@@ -29,14 +29,16 @@ select option{background:#102018;color:#fff}
 .team{text-align:center;font-weight:900;line-height:1.6}
 .vs{color:var(--green2);font-weight:900}
 .scores{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .btn{border:0;background:var(--green);color:#042014;border-radius:16px;padding:13px 14px;font-weight:900;cursor:pointer}
+.btn.danger{background:var(--danger);color:#26050a}
 .btn:disabled{opacity:.55;cursor:not-allowed}
 .message{display:none;border-radius:16px;padding:12px 13px;font-size:13px;line-height:1.8}
 .message.show{display:block}
 .message.ok{background:rgba(25,241,162,.11);border:1px solid rgba(25,241,162,.22);color:#dcfff0}
 .message.err{background:rgba(255,107,122,.10);border:1px solid rgba(255,107,122,.24);color:#ffdfe3}
 .link{display:inline-block;margin-top:14px;color:var(--muted);font-size:12px;text-decoration:none}
-@media (max-width:430px){.top{display:grid}.scores{grid-template-columns:1fr}.teams{grid-template-columns:1fr}.vs{display:none}}
+@media (max-width:430px){.top{display:grid}.scores,.actions{grid-template-columns:1fr}.teams{grid-template-columns:1fr}.vs{display:none}}
 </style>
 </head>
 <body>
@@ -80,7 +82,10 @@ select option{background:#102018;color:#fff}
         </label>
       </div>
 
-      <button id="saveBtn" class="btn" type="submit">ذخیره نتیجه</button>
+      <div class="actions">
+        <button id="saveBtn" class="btn" type="submit">ذخیره نتیجه</button>
+        <button id="deleteBtn" class="btn danger" type="button">Delete result</button>
+      </div>
       <div id="message" class="message"></div>
     </form>
 
@@ -103,6 +108,11 @@ function setSelectedMatch(){
   const match = state.matches.find((item) => String(item.id) === String($('#matchSelect').value));
   $('#homeTeam').textContent = match ? match.team1 : '-';
   $('#awayTeam').textContent = match ? match.team2 : '-';
+}
+
+function setBusy(isBusy){
+  $('#saveBtn').disabled = isBusy;
+  $('#deleteBtn').disabled = isBusy;
 }
 
 function extractDashboardData(html){
@@ -193,7 +203,7 @@ $('#resultForm').addEventListener('submit', async (event) => {
     status: 'finished'
   };
 
-  $('#saveBtn').disabled = true;
+  setBusy(true);
   showMessage('در حال ذخیره نتیجه...', 'ok');
 
   try {
@@ -212,7 +222,48 @@ $('#resultForm').addEventListener('submit', async (event) => {
   } catch (error) {
     showMessage('ارتباط با سرور برقرار نشد.', 'err');
   } finally {
-    $('#saveBtn').disabled = false;
+    setBusy(false);
+  }
+});
+
+$('#deleteBtn').addEventListener('click', async () => {
+  const match = state.matches.find((item) => String(item.id) === String($('#matchSelect').value));
+  if(!match){
+    showMessage('Please select a valid match.', 'err');
+    return;
+  }
+  if(!$('#adminToken').value){
+    showMessage('Please enter the admin code.', 'err');
+    return;
+  }
+  if(!confirm(`Delete the recorded result for ${match.name}?`)){
+    return;
+  }
+
+  setBusy(true);
+  showMessage('Deleting result...', 'ok');
+
+  try {
+    const response = await fetch('/.netlify/functions/save-result', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        action: 'delete',
+        adminToken: $('#adminToken').value,
+        matchId: Number(match.id)
+      })
+    });
+    const data = await response.json();
+    if(!response.ok || !data.ok){
+      showMessage(data.message || 'Result was not deleted.', 'err');
+      return;
+    }
+    showMessage('Result deleted.', 'ok');
+    $('#adminToken').value = '';
+  } catch (error) {
+    showMessage('Could not connect to the server.', 'err');
+  } finally {
+    setBusy(false);
   }
 });
 
